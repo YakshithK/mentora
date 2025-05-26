@@ -7,24 +7,17 @@ const redirectTo = (request: NextRequest, pathname: string) => {
     return NextResponse.redirect(url);
 };
 
+
 export const handleAuthVerify = async (request: NextRequest) => {
     const sessionCookie = await getSessionCookie(request);
-  
-    if (!sessionCookie) {
+    const currentPath = request.nextUrl.pathname
+
+    if (!sessionCookie && currentPath !== "/auth/signin") {
       return redirectTo(request, '/auth/signin')
+    } 
+    else if (sessionCookie && currentPath === "/auth/signin") {
+        return redirectTo(request, '/')
     }
   
     return null;
 };
-
-// Special case in which logic is differs (therefore warrants its own function)
-export const handleAuthSignInVerify = async (request: NextRequest) => {
-  const sessionCookie = await getSessionCookie(request);
-  const currentPath = request.nextUrl.pathname
-  
-  if (sessionCookie && currentPath === "/signin") {
-    return redirectTo(request, '/')
-  }
-
-  return null;
-}
