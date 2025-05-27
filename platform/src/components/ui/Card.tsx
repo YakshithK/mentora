@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { FileText, Users, UserCheck } from 'lucide-react';
 
 interface CardProps {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
