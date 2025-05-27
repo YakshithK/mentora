@@ -1,26 +1,11 @@
-import { GraduationCapIcon, Users } from 'lucide-react';
+import { bodyDescriptionFeatures as features } from "@/data/features";
 
-const features = [
-  {
-    name: 'AI Grader',
-    description:
-      'Mentora uses advanced AI neural networks to provide personalized feedback on your assignments, helping you understand your strengths and areas for improvement.',
-    icon: GraduationCapIcon,
-  },
-  {
-    name: 'Bias Dectection',
-    description:
-      'Mentora identifies and highlights any potential biases in your assignments, ensuring that your work is fair and objective.',
-    icon: Users,
-  },
-];
-
-const BodtyDescription = () => {
+const BodyDescription = () => {
   return (
     <div className="py-24 sm:py-16 font-outfit mb-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600 cursor-text">
+          <h2 className="text-base font-semibold leading-7 text-purple-600 cursor-text">
             Ace Your Assignments <span className="underline font-bold">Faster</span>
           </h2>
           <h2 className="mt-2 text-3xl font-manrope font-semibold tracking-tight text-gray-900 sm:text-5xl cursor-text">
@@ -55,4 +40,4 @@ const BodtyDescription = () => {
   );
 }
 
-export default BodtyDescription;
+export default BodyDescription;
