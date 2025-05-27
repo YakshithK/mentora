@@ -1,4 +1,4 @@
-import LandingPage from '@/components/feature/Landing-Page/Page'
+import LandingPage from '@/components/feature/Landing-Page/Main'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
