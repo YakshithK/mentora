@@ -3,7 +3,7 @@
 import { signIn } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
 
-const GoogleSignInPage: React.FC = () => {
+const GoogleSignInPage = () => {
 
   return (
       <div className="flex h-screen justify-center items-center bg-gray-100">
