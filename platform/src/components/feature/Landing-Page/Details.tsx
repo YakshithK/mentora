@@ -37,7 +37,8 @@ const Details = () => {
               width={1000}
               height={1000}
               src={'/images/details-image.png'}
-              alt="Product screenshot"
+              alt="students getting feedback on their assignments"
+              priority
               className="rounded-lg ring-gray-400/10 lg:px-0 px-2"
             />
           </div>
