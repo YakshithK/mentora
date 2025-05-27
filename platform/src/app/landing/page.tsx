@@ -1,4 +1,4 @@
-import LandingPage from '@/components/LandingPage'
+import LandingPage from '@/components/feature/Landing-Page/Page'
 import React from 'react'
 
 const LandingRoute = () => {

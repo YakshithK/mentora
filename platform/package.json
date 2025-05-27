@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "better-auth": "^1.2.8",
     "lucide-react": "^0.511.0",
     "mongodb": "^6.16.0",

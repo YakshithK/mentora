@@ -1,8 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-const LandingPage = () => {
+const MainHero = () => {
   return (
-    <>
       <div className="relative">
         <div className="relative isolate px-6 lg:px-8">
           <div className="mx-auto max-w-5xl py-10 md:py-40">
@@ -68,9 +67,7 @@ const LandingPage = () => {
             />
           </div>
         </div>
-      </div>
-    </>
-  );
-};
+      </div>  )
+}
 
-export default LandingPage;
+export default MainHero
