@@ -1,4 +1,4 @@
-import { Feature } from "@/types/button/feature";
+import { Feature } from "@/types/feature";
 import { CloudArrowUpIcon, LockClosedIcon } from "@heroicons/react/20/solid";
 import { GraduationCapIcon, ServerIcon, Users } from "lucide-react";
 
