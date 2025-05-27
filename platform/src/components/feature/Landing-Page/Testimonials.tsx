@@ -12,12 +12,12 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ text, name, date, rot
 
   return (
     <div 
-      className={`bg-green-200 relative p-6 rounded-lg w-96 h-96 flex flex-col justify-center items-center text-center ${rotationClass}`}
+      className={`bg-purple-200 relative p-6 rounded-lg w-96 h-96 flex flex-col justify-center items-center text-center ${rotationClass}`}
     >
       {/* Sticky note effect */}
       <div className="absolute top-0 -right-0.5 transform">
         <img 
-          src={`/images/post-it-tips/green.png`}
+          src={`/images/post-it-tip.png`}
           alt="Sticky note corner"
           className="h-12 w-12"
         />
@@ -41,7 +41,6 @@ const Testimonial = () => {
 
   return (
     <div className="mt-16 text-center">
-      <p className="mt-4 font-light">Real stories vouching for the value gained from StockSavvy.</p>
 
       <div className="flex flex-wrap justify-center gap-8 mt-8 lg:space-x-12">
         {testimonials.map((testimonial, index) => (

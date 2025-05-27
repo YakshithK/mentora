@@ -2,6 +2,7 @@ import React from 'react';
 import MainHero from './MainHero';
 import BodyDescription from './BodyDescription';
 import Details from './Details';
+import Testimonials from './Testimonials';
 
 const LandingPage = () => {
   return (
@@ -9,6 +10,7 @@ const LandingPage = () => {
       <MainHero />
       <BodyDescription />
       <Details />
+      <Testimonials />
     </>
   );
 };
