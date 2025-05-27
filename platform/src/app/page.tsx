@@ -1,5 +1,6 @@
 "use client"
 
+import Spinner from '@/components/ui/Spinner';
 import { useSession } from '@/lib/auth-client';
 import React from 'react'
 
@@ -15,6 +16,7 @@ const Dashboard = () => {
   };
 
   const session = useSession()
+  const name = session.data?.user.name
 
   return (
     <div className="max-w-screen p-5">
@@ -23,7 +25,13 @@ const Dashboard = () => {
         <div className="flex items-center">
           <div className="rounded-full bg-white w-16 h-16 flex justify-center items-center text-4xl ml-3 mr-3">👋</div>
           <div>
-            <p className="font-bold text-lg">{handleGetGreeting()} {session.data?.user.name}!</p>
+            {session.isPending ? (
+              <Spinner />
+            ) : (
+              <p className="text-2xl font-semibold">
+                {handleGetGreeting()}, {name || 'Guest'}!
+              </p>
+            )}
             <p className="text-sm text-gray-300">Explore what Mentora has to offer...</p>
           </div>
         </div>
