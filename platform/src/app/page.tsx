@@ -1,10 +1,12 @@
 "use client"
 
 import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
 import Spinner from '@/components/ui/Spinner';
 import { useSession } from '@/lib/auth-client';
 import React from 'react'
 import { BiChat, BiUser } from 'react-icons/bi';
+import { GraduationCap, Users, MessageCircle } from 'lucide-react';
 
 const Dashboard = () => {
 
@@ -49,7 +51,33 @@ const Dashboard = () => {
             </div>
         </div>
       </div>
-    </div>
+
+      <div className="mt-8 mb-4">
+        <h2 className="text-2xl font-semibold text-gray-900">Quick Actions</h2>
+        <p className="text-sm text-gray-600">What would you like to do today?</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-7xl">
+        <Card
+          icon={GraduationCap}
+          title="AI Grader"
+          description="Use our AI Grader to gain personalized feedback based on your teacher's grading style." 
+          onOpenClick={() => console.log('Open AI Grader')}        
+          />
+        <Card
+          icon={Users}
+          title="Bias Detection"
+          description="Use our AI Bias Detection tool to identify potential biases in teacher feedback."
+          onOpenClick={() => console.log('Open Bias Detection')}
+        />
+        <Card
+          icon={MessageCircle}
+          title="AI Chatbot"
+          description="Chat with our AI to get personalized advice and feedback. It is used with AI Grader and Bias Detection as well."
+          onOpenClick={() => console.log('Open AI Chatbot')}
+        />
+      </div>    
+      </div>
   )
 }
 
