@@ -70,7 +70,11 @@ const Dashboard = () => {
           description="Chat with our AI to get personalized advice and feedback. It is used with AI Grader and Bias Detection as well."
           onOpenClick={() => console.log('Open AI Chatbot')}
         />
-      </div>    
+      </div>  
+
+      <div>
+          
+      </div>  
       </div>
   )
 }
