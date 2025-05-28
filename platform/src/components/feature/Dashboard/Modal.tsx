@@ -86,25 +86,6 @@ const Modal = () => {
                 <div className="px-6 py-4">
                     {renderContent()}
                 </div>
-
-                <div className="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors duration-150"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={() => {
-                            // Handle primary action here
-                            console.log(`${state} action triggered`);
-                            onClose();
-                        }}
-                        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                        Get Started
-                    </button>
-                </div>
             </div>
         </div>
     );
