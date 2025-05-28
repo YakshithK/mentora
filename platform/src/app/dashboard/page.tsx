@@ -65,12 +65,6 @@ const Dashboard = () => {
           onOpenClick={() => console.log('Open AI Grader')}        
           />
         <Card
-          icon={Users}
-          title="Bias Detection"
-          description="Use our AI Bias Detection tool to identify potential biases in teacher feedback."
-          onOpenClick={() => console.log('Open Bias Detection')}
-        />
-        <Card
           icon={MessageCircle}
           title="AI Chatbot"
           description="Chat with our AI to get personalized advice and feedback. It is used with AI Grader and Bias Detection as well."
