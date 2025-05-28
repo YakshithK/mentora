@@ -1,4 +1,6 @@
-export const quotes = [
+import { Quote } from "@/types/quotes";
+
+export const quotes: Quote[] = [
     {
       "quote": "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
       "author": "Malcolm X"
