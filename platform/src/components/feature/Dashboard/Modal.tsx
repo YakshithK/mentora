@@ -3,10 +3,9 @@ import React, {useState} from "react";
 
 interface ModalProps {
     title?: string;
-    children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, children }) => {
+const Modal: React.FC<ModalProps> = ({ title }) => {
 
     const { state, onClose } = useModalStore();
 
