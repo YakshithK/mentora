@@ -69,7 +69,7 @@ const Modal = () => {
             onClick={handleBackdropClick}
         >
             <div 
-                className="bg-white rounded-xl shadow-2xl w-full mx-4 transform transition-all duration-200 scale-100"
+                className="bg-white rounded-xl shadow-2xl w-screen h-2/3 mx-4 transform transition-all duration-200 scale-100"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="flex justify-between border-b border-gray-200 px-6 py-4">
