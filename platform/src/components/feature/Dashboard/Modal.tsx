@@ -72,7 +72,6 @@ const Modal = () => {
                 className="bg-white rounded-xl shadow-2xl w-full mx-4 transform transition-all duration-200 scale-100"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Header */}
                 <div className="flex justify-between items-center border-b border-gray-200 px-6 py-4">
                     <h2 className="text-xl font-bold text-gray-900">{state}</h2>
                     <button
@@ -84,12 +83,10 @@ const Modal = () => {
                     </button>
                 </div>
 
-                {/* Content */}
                 <div className="px-6 py-4">
                     {renderContent()}
                 </div>
 
-                {/* Footer */}
                 <div className="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
                     <button
                         onClick={onClose}
