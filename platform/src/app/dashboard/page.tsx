@@ -6,7 +6,7 @@ import React from 'react'
 import { GraduationCap, MessageCircle, MessageSquare, User } from 'lucide-react';
 import MotivationBox from '@/components/feature/Dashboard/MotivationBox';
 import { useSession } from '@/lib/auth-client';
-import Spinner from '@/components/ui/Spinner';
+import Modal from '@/components/feature/Dashboard/Modal';
 
 const Dashboard = () => {
   const handleGetGreeting = () => {
@@ -56,15 +56,17 @@ const Dashboard = () => {
               icon={GraduationCap}
               title="AI Grader"
               description="Use our AI Grader to gain personalized feedback based on your teacher's grading style." 
-              onOpenClick={() => console.log('Open AI Grader')}        
+              type="AI Grader"
             />
             <Card
               icon={MessageCircle}
               title="AI Chatbot"
               description="Chat with our AI to get personalized advice and feedback. It is used with AI Grader and Bias Detection as well."
-              onOpenClick={() => console.log('Open AI Chatbot')}
+              type="AI Chatbot"
             />
             <MotivationBox />
+
+            <Modal />
           </div>
         </div>
       </div>
