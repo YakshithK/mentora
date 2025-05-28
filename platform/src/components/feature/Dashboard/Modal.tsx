@@ -1,8 +1,8 @@
 import useModalStore from "@/store/modal";
-import React, {useState} from "react";
+import React from "react";
 
 interface ModalProps {
-    title?: string;
+    title: string;
 }
 
 const Modal: React.FC<ModalProps> = ({ title }) => {
