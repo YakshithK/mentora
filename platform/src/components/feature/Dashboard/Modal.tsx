@@ -72,11 +72,11 @@ const Modal = () => {
                 className="bg-white rounded-xl shadow-2xl w-full mx-4 transform transition-all duration-200 scale-100"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex justify-between items-center border-b border-gray-200 px-6 py-4">
-                    <h2 className="text-xl font-bold text-gray-900">{state}</h2>
+                <div className="flex justify-between border-b border-gray-200 px-6 py-4">
+                    <h2 className="text-lg font-semibold text-purple-900">Mentora</h2>
                     <button
                         onClick={onClose}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         aria-label="Close modal"
                     >
                         <X size={20} />
