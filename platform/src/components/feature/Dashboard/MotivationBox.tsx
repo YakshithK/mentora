@@ -2,19 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { Quote, Sparkles } from "lucide-react";
 import Spinner from "@/components/ui/Spinner";
+import {quotes} from "@/data/quotes";
 
 const MotivationBox = () => {
-  const [quote, setQuote] = useState("The only way to do great work is to love what you do.");
+  const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("Steve Jobs");
   const [loading, setLoading] = useState(false);
 
   const fetchQuote = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://zenquotes.io/api/random");
-      const data = await response.json();
-      setQuote(data[0].q);
-      setAuthor(data[0].a);
+      const response =  quotes[Math.floor(Math.random() * quotes.length)];
+      setQuote(response.quote);
+      setAuthor(response.author);
     } catch (error) {
       setQuote("The only way to do great work is to love what you do.");
       setAuthor("Steve Jobs");
