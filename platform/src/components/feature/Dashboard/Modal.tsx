@@ -65,11 +65,11 @@ const Modal = () => {
 
     return (
         <div 
-            className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm transition-opacity duration-200"
+            className="fixed inset-0 z-50 flex items-center backdrop-blur-sm transition-opacity duration-200"
             onClick={handleBackdropClick}
         >
             <div 
-                className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 transform transition-all duration-200 scale-100"
+                className="bg-white rounded-xl shadow-2xl w-full mx-4 transform transition-all duration-200 scale-100"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
