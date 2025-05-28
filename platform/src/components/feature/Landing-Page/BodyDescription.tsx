@@ -9,7 +9,7 @@ const BodyDescription = () => {
             Ace Your Assignments <span className="underline font-bold">Faster</span>
           </h2>
           <h2 className="mt-2 text-3xl font-manrope font-semibold tracking-tight text-gray-900 sm:text-5xl cursor-text">
-            Relevant and personalized feedback
+            A <span className="font-bold bg-gradient-to-r from-violet-500 via-indigo-500 to-indigo-400 inline-block text-transparent bg-clip-text">Lifeline</span> For Students
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600 cursor-text">
             Mentora makes it easy to get relevant and personalized feedback on your assignments, helping you improve your grades and understanding of the subject content.
