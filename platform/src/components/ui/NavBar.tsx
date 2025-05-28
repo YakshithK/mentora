@@ -4,6 +4,7 @@ import { useSession } from "@/lib/auth-client";
 import { signOut } from "@/lib/auth-client";
 import { ChevronDown, LogOut } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -39,12 +40,11 @@ const NavBar = () => {
   return (
     <nav className="w-full bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
-        {/* Left side - Dashboard title */}
+
         <div className="flex items-center">
-          <h1 className="text-xl font-semibold text-purple-900">Mentora</h1>
+          <Link href={"/landing"} className="text-xl font-semibold text-purple-900">Mentora</Link>
         </div>
 
-        {/* Right side - User profile */}
         <div className="relative" ref={dropdownRef}>
           <div
             className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
