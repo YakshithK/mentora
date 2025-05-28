@@ -1,5 +1,5 @@
 import React from 'react'
-import { promptData } from '@/data/prompt'
+import { promptSuggestions } from '@/data/prompt'
 
 const AIGetStarted = () => {
     return (
@@ -8,7 +8,7 @@ const AIGetStarted = () => {
                 How can I help?
             </h1>
             <div className="absolute bottom-48 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
-                {promptData.map((prompt, index) => (
+                {promptSuggestions.map((prompt, index) => (
                     <div
                         key={index}
                         className="bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-sm hover:shadow-md rounded-2xl px-3 py-2 transition-all duration-300 cursor-pointer group flex items-start gap-3"

@@ -1,30 +1,30 @@
 import { PromptData } from '@/types/prompt'
-import { BrainCircuit, Map, BookMarked, Bot } from 'lucide-react'
+import { HelpCircle, ListChecks, FileText, Info } from 'lucide-react'
 
-const brainIcon = BrainCircuit
-const mapIcon = Map
-const bookIcon = BookMarked
-const botIcon = Bot
+const helpIcon = HelpCircle         
+const checklistIcon = ListChecks    
+const fileIcon = FileText           
+const infoIcon = Info              
 
-export const promptData: PromptData[] = [
+export const promptSuggestions: PromptData[] = [
   {
-    icon: brainIcon,
-    boldedText: "AP Learning Game",
-    greyedText: "Make studying fun and interactive",
+    icon: helpIcon,
+    boldedText: "Clarify feedback",
+    greyedText: "Ask what the feedback means."
   },
   {
-    icon: mapIcon,
-    boldedText: "Harvard Admission",
-    greyedText: "Harvard Medical's capstone project?"
+    icon: checklistIcon,
+    boldedText: "Action steps",
+    greyedText: "Request specific changes."
   },
   {
-    icon: bookIcon,
-    boldedText: "Scholarship Finder",
-    greyedText: "What are some aid opportunities"
+    icon: fileIcon,
+    boldedText: "Show examples",
+    greyedText: "Ask for sample revisions."
   },
   {
-    icon: botIcon,
-    boldedText: "Counsellor",
-    greyedText: "Internship tips and tricks"
+    icon: infoIcon,
+    boldedText: "Reason for feedback",
+    greyedText: "Understand why you got it."
   }
 ]
