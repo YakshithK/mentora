@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, FormEvent, KeyboardEvent } from "react"
 import { SendIcon, Sparkles, CornerDownLeft } from "lucide-react"
 import GetStartedAI from "./AIGetStarted"
 import { Message } from "@/types/ai-message"
+import Image from "next/image"
 
 const AIChabot = () => {
   const [messages, setMessages] = useState<Message[]>([])
@@ -59,49 +60,54 @@ const AIChabot = () => {
     <div className="flex flex-col bg-white">
       <main className="flex-1 overflow-hidden flex flex-col max-w-5xl w-full mx-auto">
         <div className="flex-1 overflow-y-auto px-4 py-6">
-          <div className="max-w-3xl mx-auto space-y-6">
-            {messages.length === 0 ? (
-              <GetStartedAI />
-            ) : (
-              messages.map((message, index) => (
-                <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                      <img
-                        src="https://camo.githubusercontent.com/7fd485d76f0cd3037c7f194738e75494a038bd315ca9c61ba7859e630548f00c/68747470733a2f2f692e6962622e636f2f6e7330775a64746a2f492d32303235303331302d3030343630352d303030302d312d72656d6f766562672d707265766965772e706e672f"
-                        alt="AI Avatar"
-                      />
+            <div
+              className="space-y-6 overflow-y-auto max-h-[40vh] min-h-[120px]"
+            >
+              {messages.length === 0 ? (
+                <GetStartedAI />
+              ) : (
+                messages.map((message, index) => (
+                  <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+                    {message.role === "assistant" && (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        <Image
+                          src="/images/ai-profile-pic.png"
+                          width={60}
+                          height={60}
+                          className="rounded-full"
+                          alt="AI Avatar"
+                        />
+                      </div>
+                    )}
+                    <div
+                      className={`rounded-2xl px-4 py-3 max-w-[85%] shadow-sm ${
+                        message.role === "user"
+                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
                     </div>
-                  )}
-                  <div
-                    className={`rounded-2xl px-4 py-3 max-w-[85%] shadow-sm ${
-                      message.role === "user"
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
 
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                  <Sparkles className="h-4 w-4 text-white" />
-                </div>
-                <div className="bg-gray-100 rounded-2xl px-4 py-3 shadow-sm">
-                  <div className="flex space-x-2 items-center h-6">
-                    <div className="animate-pulse">
-                      Thinking <small>...</small>
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                    <Sparkles className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="bg-gray-100 rounded-2xl px-4 py-3 shadow-sm">
+                    <div className="flex space-x-2 items-center h-6">
+                      <div className="animate-pulse">
+                        Thinking <small>...</small>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
         </div>
 
         {/* Prompt Area */}
