@@ -1,3 +1,4 @@
+import useModalStore from "@/store/modal";
 import React, {useState} from "react";
 
 interface ModalProps {
@@ -7,13 +8,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ title, children }) => {
 
-    const [isOpen, setIsOpen] = useState(true); 
-
-    const onClose = () => {
-        setIsOpen(false);
-    };
-    
-    if (!isOpen) return null;
+    const { state, onClose } = useModalStore();
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -28,7 +23,8 @@ const Modal: React.FC<ModalProps> = ({ title, children }) => {
                         &times;
                     </button>
                 </div>
-                <div className="p-4">{children}</div>
+                {/* Only 2 states available so if not AI Chatbot, it must be AI Grader */}
+                <div className="p-4">{state === "AI Chatbot" ? "AI CHATBOT" : "AI GRADER"}</div>
             </div>
         </div>
     );
