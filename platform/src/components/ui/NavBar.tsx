@@ -5,8 +5,9 @@ import { signOut } from "@/lib/auth-client";
 import { ChevronDown, LogOut } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 const NavBar = () => {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const session = useSession();
@@ -35,6 +36,7 @@ const NavBar = () => {
 
   const handleSignOut = async () => {
     await signOut();
+    await router.push('/')
   }
 
   return (
