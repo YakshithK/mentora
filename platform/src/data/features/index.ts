@@ -10,9 +10,9 @@ export const bodyDescriptionFeatures: Feature[] = [
     icon: GraduationCapIcon,
   },
   {
-    name: 'Bias Dectection',
+    name: 'AI Chatbot',
     description:
-      'Mentora identifies and highlights any potential biases in your assignments, ensuring that your work is fair and objective.',
+      'Mentora features an AI chatbot that can answer your questions, provide explanations, and assist you with your assignments in real-time.',
     icon: Users,
   },
 ];
