@@ -21,7 +21,7 @@ const Footer = () => {
           <div className="mb-8 md:mb-10">
             <p className="text-white/80 mb-1 md:mb-2 uppercase text-sm md:text-base">Ready to ace your assignment?</p>
             <Link href="/dashboard">
-            <button className="bg-white text-purple-700 hover:bg-purple-600 hover:text-white transition-colors duration-200 text-base sm:text-lg md:text-xl font-medium px-6 py-3 rounded-md shadow hover:shadow-lg">
+            <button className="cursor-pointer bg-white text-purple-700 hover:bg-purple-600 hover:text-white transition-colors duration-200 text-base sm:text-lg md:text-xl font-medium px-6 py-3 rounded-md shadow hover:shadow-lg">
                 Take me to dashboard
             </button>
             </Link>
