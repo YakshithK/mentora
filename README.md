@@ -29,8 +29,6 @@
 
 The system is trained on real human-written content, scrubbed of AI-generated feedback, to ensure authenticity and avoid reinforcing synthetic patterns. It's part of a broader effort to encourage intellectual growth by helping students understand their writing rather than outsourcing their thinking.
 
----
-
 ## ⚙️ Tech Stack
 
 Mentora uses the following programming languages: **Typescript** and **Python**
@@ -40,7 +38,6 @@ Mentora uses the following programming languages: **Typescript** and **Python**
 - **PyTorch** – Deep learning module for training the essay grading neural network.
 - **NumPy** - Data processing module for cleaning the training and testing data
 - **gRPC** - Allows for quick and seamless multi programming language communication between mircoservices and services like backend.
----
 
 ## 🚀 Features
 
@@ -49,7 +46,6 @@ Mentora uses the following programming languages: **Typescript** and **Python**
 - Feedback generation with critical thinking emphasis
 - MIT licensed, open-source
 
----
 
 ## 📂 Project Structure
 
