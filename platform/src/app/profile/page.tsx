@@ -1,6 +1,15 @@
 import { Mail } from "lucide-react"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers";
+import PersonalizationCard from "@/components/feature/Profile/PersonalizationCard";
+import { TbTextGrammar } from "react-icons/tb";
 
-const Profile = () => {
+const Profile = async () => {
+
+  const session = await auth.api.getSession({
+      headers: await headers(),
+  });
+
   return (
     <div className="py-24 sm:py-16 font-outfit mb-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -8,7 +17,7 @@ const Profile = () => {
           <div className="flex justify-center mb-6">
             <div className="relative">
               <img
-                src="/placeholder.svg?height=120&width=120"
+                src={session?.user.image || "/default-profile.png"}
                 alt="Profile"
                 className="w-30 h-30 rounded-full border-4 border-purple-600 shadow-lg"
               />
@@ -19,71 +28,34 @@ const Profile = () => {
             <span className="underline">Menteera</span>
           </h2>
           <h1 className="mt-2 text-3xl font-manrope font-semibold tracking-tight text-gray-900 sm:text-5xl cursor-text">
-            Hemit Patel
+            {session?.user.name}
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 cursor-text">
-            Passionate developer with 5+ years of experience building scalable web applications. I love creating
-            beautiful, functional solutions that make a difference.
-          </p>
 
           <div className="flex justify-center items-center gap-2 mt-6 text-sm text-gray-600">
               <Mail className="w-4 h-4" />
-              <span className="cursor-text">alex@example.com</span>
+              <span className="cursor-text">{session?.user.email}</span>
             </div>
+        </div>
+
+        <div className="mx-auto max-w-2xl mt-10 mb-4 flex items-center gap-4">
+          <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-purple-100">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/><path d="M12 8v4m0 4h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-purple-800 text-lg mb-0.5 tracking-tight">Personalization Overview</span>
+            <span className="text-gray-700 text-sm">
+              See which feedback types our AI tracks to personalize your experience.
+            </span>
+          </div>
         </div>
         <div className="mx-auto mt-8 max-w-2xl sm:mt-20 lg:mt-12 lg:max-w-4xl">
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-            <div className="relative pl-16">
-              <dt className="text-base font-semibold leading-7 text-gray-900">
-                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-600">
-                  <span className="text-white text-xl">💻</span>
-                </div>
-                <div className="cursor-text">Technical Skills</div>
-              </dt>
-              <dd className="mt-2 text-base leading-7 text-gray-600 cursor-text">
-                React, Next.js, TypeScript, Node.js, Python, PostgreSQL, AWS. Experienced in building modern web
-                applications with clean, maintainable code.
-              </dd>
-            </div>
-
-            <div className="relative pl-16">
-              <dt className="text-base font-semibold leading-7 text-gray-900">
-                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-600">
-                  <span className="text-white text-xl">🎯</span>
-                </div>
-                <div className="cursor-text">Current Focus</div>
-              </dt>
-              <dd className="mt-2 text-base leading-7 text-gray-600 cursor-text">
-                Building AI-powered applications and exploring machine learning integration in web development. Always
-                learning new technologies and best practices.
-              </dd>
-            </div>
-
-            <div className="relative pl-16">
-              <dt className="text-base font-semibold leading-7 text-gray-900">
-                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-600">
-                  <span className="text-white text-xl">🏆</span>
-                </div>
-                <div className="cursor-text">Achievements</div>
-              </dt>
-              <dd className="mt-2 text-base leading-7 text-gray-600 cursor-text">
-                Led development of 3 major product launches, contributed to 50+ open source projects, and mentored 10+
-                junior developers.
-              </dd>
-            </div>
-
-            <div className="relative pl-16">
-              <dt className="text-base font-semibold leading-7 text-gray-900">
-                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-600">
-                  <span className="text-white text-xl">🌱</span>
-                </div>
-                <div className="cursor-text">Interests</div>
-              </dt>
-              <dd className="mt-2 text-base leading-7 text-gray-600 cursor-text">
-                Open source contribution, tech blogging, photography, and hiking. Passionate about using technology to
-                solve real-world problems.
-              </dd>
-            </div>
+            <PersonalizationCard
+              type={"Grammar"}
+              description={"Improve your writing with personalized grammar suggestions."}
+              icon={<TbTextGrammar />}
+              amountOfOccurance={2}
+            />
           </dl>
         </div>
       </div>
