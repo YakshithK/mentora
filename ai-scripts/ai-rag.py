@@ -6,7 +6,9 @@ from langchain_astradb import AstraDBVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from helper.pdf import save_online_pdf
 from helper.web_crawl import crawler
+from dotenv import load_dotenv 
 
+load_dotenv()
 
 async def store_vectors():
     """Store document vectors into the AstraDB vector store."""
@@ -47,8 +49,6 @@ async def store_vectors():
 
     embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
     embeddings = HuggingFaceEmbeddings(model_name=embedding_model)
-
-    spinner()
 
     vectorstore = AstraDBVectorStore(
         collection_name=collection_name,

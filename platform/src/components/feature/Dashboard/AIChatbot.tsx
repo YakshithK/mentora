@@ -79,9 +79,9 @@ const AIChabot = () => {
   return (
     <div className="flex flex-col bg-white">
       <main className="flex-1 overflow-hidden flex flex-col max-w-5xl w-full mx-auto">
-        <div className="flex-1 overflow-y-auto px-4 py-6">
+        <div className="flex-1 overflow-y-auto max-h-[40vh] px-4 py-6">
             <div
-              className="space-y-6 overflow-y-auto max-h-[40vh] min-h-[120px]"
+              className="space-y-6 "
             >
               {messages.length === 0 ? (
                 <GetStartedAI />

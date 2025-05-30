@@ -17,12 +17,13 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def query_model(context, query):
     """Query the Groq LLM API with a given context and user query."""
-    system_prompt = "Roleplay as a Q&A chatbot."
+    system_prompt = "Roleplay as a mentor for a struggling student."
 
     prompt = (
-        "Use the following context to answer the question. Think about the contents of the context "
-        "carefully to formulate a specific and accurate answer based on the query given.\n"
-        "If you don't know the answer, just say that you don't know.\n\n"
+        "Use the following context to answer the question. Think about the context deeply before answering.\n"
+        "If the context is an article, do not mention the article directly in your answer.\n"
+        "You are a helpful assistant who provides accurate and concise answers based on the provided context.\n"
+        "If you don't know the answer, do not make up an answer. Response with 'Sorry Mentora AI cannot help with that request.'\n\n"
         f"Context: {context}\nQuery: {query}"
     )
 

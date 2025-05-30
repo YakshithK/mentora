@@ -17,9 +17,9 @@ const loadedProto = grpc.loadPackageDefinition(packageDefinition) as any;
 const VectorQueryService = loadedProto.vectorquery.VectorQueryService;
 
 // Promisified gRPC call using arrow function
-const fetchAndQueryPromise = (client: any, prompt: string): Promise<any> => {
+const fetchAndQueryPromise = (client: any, query: string): Promise<any> => {
   return new Promise((resolve, reject) => {
-    client.fetchAndQuery({ prompt }, (err: any, response: any) => {
+    client.fetchAndQuery({ query }, (err: any, response: any) => {
       if (err) {
         reject(err);
       } else {
