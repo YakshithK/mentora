@@ -2,15 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from "path";
-import { MongoClient } from "mongodb";
+import { client as mongoClient, dbName } from "@/lib/mongo-client"
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 
 const PROTO_PATH = path.join(process.cwd(), 'src', 'protos', 'vector_query.proto');
-const DB_NAME = 'mentora';
-const COLLECTION_NAME = 'chat-history';
 
-const mongoClient = new MongoClient(process.env.MONGO_URL || '');
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const loadedProto = grpc.loadPackageDefinition(packageDefinition) as any;
@@ -50,8 +47,8 @@ export const POST = async (req: NextRequest) => {
     const grpcResponse = grpcResponseRaw.toObject ? grpcResponseRaw.toObject() : grpcResponseRaw;
 
     await mongoClient.connect();
-    const db = mongoClient.db(DB_NAME);
-    const collection = db.collection(COLLECTION_NAME);
+    const db = mongoClient.db(dbName);
+    const collection = db.collection("chat-history");
 
     // Get user email from session
     const session = await auth.api.getSession({ headers: await headers() });
@@ -72,3 +69,5 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: error.message, success: false }, { status: 500 });
   }
 };
+
+export const DELETE = async (req: NextRequest) => {}
