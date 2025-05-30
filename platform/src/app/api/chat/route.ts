@@ -38,7 +38,7 @@ async function handleStoreChatHistory(email: string, prompt: string, response: Q
     });
 }
 
-export async function POST(req: NextRequest) {
+export const POST = async (req: NextRequest) =>{
     try {
         const { email, prompt } = await req.json();
         if (!email || !prompt) {
