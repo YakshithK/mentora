@@ -53,7 +53,7 @@ const AIChabot = () => {
       const data = await response.json()
       const assistantMessage: Message = {
         role: "assistant",
-        content: data.response || "No response from assistant.",
+        content: data.chat,
       }
 
       setMessages((prev) => [...prev, assistantMessage])
