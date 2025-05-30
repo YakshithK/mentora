@@ -1,14 +1,16 @@
-"use client"
+'use client'
 import { Search, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Spinner from '@/components/ui/Spinner'
-import { HistoryItem, filterType } from '@/types/history'
+import { HistoryItem } from '@/types/history'
 
 const History = () => {
     const [historyData, setHistoryData] = useState<HistoryItem[]>([])
+    const [filteredData, setFilteredData] = useState<HistoryItem[]>([])
     const [loading, setLoading] = useState(true)
     const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
-    const [filterType, setFilterType] = useState<filterType>('all')
+    const [filterType, setFilterType] = useState<'all' | 'chat' | 'grader'>('all')
+    const [searchQuery, setSearchQuery] = useState('')
 
     const truncateText = (text: string, maxLength: number = 100) => {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
@@ -39,6 +41,19 @@ const History = () => {
     useEffect(() => {
         fetchHistory(filterType)
     }, [filterType])
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            const lowerQuery = searchQuery.toLowerCase()
+            const result = historyData.filter(item =>
+                item.fullPrompt?.toLowerCase().includes(lowerQuery) ||
+                item.fullResponse?.toLowerCase().includes(lowerQuery) || false
+            )
+            setFilteredData(result)
+        }, 300) // debounce delay
+
+        return () => clearTimeout(timeout)
+    }, [searchQuery, historyData])
 
     const toggleRow = (index: number) => {
         setExpandedRows(prev => {
@@ -72,7 +87,7 @@ const History = () => {
         }
     }
 
-    const handleFilterHistory = (type: filterType) => {
+    const handleFilterHistory = (type: 'all' | 'chat' | 'grader') => {
         setFilterType(type)
     }
 
@@ -84,6 +99,8 @@ const History = () => {
                         className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white/95 text-purple-900 placeholder:text-purple-400 shadow-sm transition-all"
                         placeholder="Search history..."
                         type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400 pointer-events-none" size={20} />
                 </div>
@@ -94,7 +111,7 @@ const History = () => {
                     <select
                         id="historyType"
                         value={filterType}
-                        onChange={(e) => handleFilterHistory(e.target.value as filterType)}
+                        onChange={(e) => handleFilterHistory(e.target.value as 'all' | 'chat' | 'grader')}
                         className="px-4 py-2 rounded-md border border-white/30 bg-white/90 shadow-sm focus:outline-none focus:ring-2 focus:ring-white text-purple-900"
                     >
                         <option value="all">All</option>
@@ -122,12 +139,12 @@ const History = () => {
                                     <Spinner />
                                 </td>
                             </tr>
-                        ) : historyData.length === 0 ? (
+                        ) : filteredData.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-6 py-4 text-center">No history found.</td>
                             </tr>
                         ) : (
-                            historyData.map((item, idx) => (
+                            filteredData.map((item, idx) => (
                                 <tr
                                     key={idx}
                                     className={idx % 2 === 0 ? 'bg-white' : 'bg-purple-50'}
