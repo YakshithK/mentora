@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { client, dbName } from "@/lib/mongo-client";
+import { client, dbName, historyCollectionName } from "@/lib/mongo-client";
 
 export const DELETE = async (req: NextRequest) => {
   try {
@@ -11,7 +11,7 @@ export const DELETE = async (req: NextRequest) => {
 
     await client.connect();
     const db = client.db(dbName);
-    const collection = db.collection('chat-history');
+    const collection = db.collection(historyCollectionName);
 
     // Delete chat history for the specified email
     const result = await collection.deleteMany({ email });

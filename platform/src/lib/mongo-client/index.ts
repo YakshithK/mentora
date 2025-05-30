@@ -7,5 +7,6 @@ if (!uri) {
 
 const client = new MongoClient(uri);
 const dbName = "mentora";
+const historyCollectionName = "history";
 
-export { client, dbName };
+export { client, dbName, historyCollectionName};

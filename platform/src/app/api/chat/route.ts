@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from "path";
-import { client as mongoClient, dbName } from "@/lib/mongo-client"
+import { client as mongoClient, dbName, historyCollectionName } from "@/lib/mongo-client"
 import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
@@ -50,7 +50,7 @@ export const POST = async (req: NextRequest) => {
 
     await mongoClient.connect();
     const db = mongoClient.db(dbName);
-    const collection = db.collection("chat-history");
+    const collection = db.collection(historyCollectionName);
 
     // Get user email from session
     const session = await auth.api.getSession({ headers: await headers() });
@@ -82,7 +82,7 @@ export const DELETE = async (req: NextRequest) => {
 
     await mongoClient.connect();
     const db = mongoClient.db(dbName);
-    const collection = db.collection("chat-history");
+    const collection = db.collection(historyCollectionName);
 
     const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
