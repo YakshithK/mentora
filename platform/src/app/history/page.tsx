@@ -1,83 +1,159 @@
+"use client"
 import { Search } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Trash2 } from 'lucide-react'
 
-const historyData = [
-    {
-        date: '2024-06-10',
-        type: '💬 Chat',
-        query: 'How to improve productivity?',
-        response: 'Try using the Pomodoro technique.',
-    },
-    {
-        date: '2024-06-09',
-        type: '📝 Grader',
-        query: 'Grade essay on climate change',
-        response: 'Score: 8/10. Good arguments, needs more data.',
-    },
-    {
-        date: '2024-06-08',
-        type: '💬 Chat',
-        query: 'Explain TypeScript generics',
-        response: 'Generics allow you to write flexible, reusable functions.',
-    },
-]
+type HistoryItem = {
+    _id: string
+    createdAt: string
+    type: string
+    prompt: string
+    response: string
+    email?: string
+    fullPrompt?: string
+    fullResponse?: string
+}
 
 const History = () => {
+    const [historyData, setHistoryData] = useState<HistoryItem[]>([])
+    const [loading, setLoading] = useState(true)
+    const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set()) // ← New state
+
+    const truncateText = (text: string, maxLength: number = 100) => {
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+    }
+
+    useEffect(() => {
+        fetch('/api/history')
+            .then(res => res.json())
+            .then(data => {
+                const processedData = data.map((item: HistoryItem) => ({
+                    ...item,
+                    fullPrompt: item.prompt,
+                    fullResponse: item.response,
+                    prompt: truncateText(item.prompt),
+                    response: truncateText(item.response)
+                }))
+                setHistoryData(processedData)
+                setLoading(false)
+            })
+            .catch(() => setLoading(false))
+    }, [])
+
+    const toggleRow = (index: number) => {
+        setExpandedRows(prev => {
+            const newSet = new Set(prev)
+            if (newSet.has(index)) {
+                newSet.delete(index)
+            } else {
+                newSet.add(index)
+            }
+            return newSet
+        })
+    }
+
+    const handleDeleteHistory = async (id: string) => {
+        try {
+            const response = await fetch('/api/history', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id })
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to delete history')
+            }
+
+            // Remove the deleted item from the state
+            setHistoryData(prev => prev.filter(item => item._id !== id))
+        }
+        catch (error) {
+            alert('Failed to delete history. Please try again later.')
+        }
+    }
+
     return (
         <div className="min-h-screen w-full flex flex-col">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 px-6 py-6 rounded-none">
-            <div className="relative w-full md:w-1/2">
-                <input
-                    className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white/95 text-purple-900 placeholder:text-purple-400 shadow-sm transition-all"
-                    placeholder="Search history..."
-                    type="text"
-                />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400 pointer-events-none" size={20} />
-            </div>
-            <div className="flex items-center md:ml-4">
-                <label className="text-white text-base font-semibold mr-2" htmlFor="historyType">
-                History Type
-                </label>
-                <select
-                id="historyType"
-                className="px-4 py-2 rounded-md border border-white/30 bg-white/90 shadow-sm focus:outline-none focus:ring-2 focus:ring-white text-purple-900"
-                >
-                <option value="all" className="text-purple-900">All</option>
-                <option value="chat">💬 Chat</option>
-                <option value="grader">📝 Grader</option>
-                </select>
-            </div>
+                <div className="relative w-full md:w-1/2">
+                    <input
+                        className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white/95 text-purple-900 placeholder:text-purple-400 shadow-sm transition-all"
+                        placeholder="Search history..."
+                        type="text"
+                    />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-400 pointer-events-none" size={20} />
+                </div>
+                <div className="flex items-center md:ml-4">
+                    <label className="text-white text-base font-semibold mr-2" htmlFor="historyType">
+                        History Type
+                    </label>
+                    <select
+                        id="historyType"
+                        className="px-4 py-2 rounded-md border border-white/30 bg-white/90 shadow-sm focus:outline-none focus:ring-2 focus:ring-white text-purple-900"
+                    >
+                        <option value="all" className="text-purple-900">All</option>
+                        <option value="chat">💬 Chat</option>
+                        <option value="grader">📝 Grader</option>
+                    </select>
+                </div>
             </div>
             <div className="relative overflow-x-auto mt-8 flex-1 px-6 pb-8">
-            <table className="w-full text-sm text-left text-purple-900 bg-white rounded-lg shadow-lg overflow-hidden">
-                <thead className="text-xs uppercase bg-purple-100 text-purple-700">
-                <tr>
-                    <th scope="col" className="px-6 py-3 font-semibold">
-                    Date
-                    </th>
-                    <th scope="col" className="px-6 py-3 font-semibold">
-                    Type
-                    </th>
-                    <th scope="col" className="px-6 py-3 font-semibold">
-                    Query
-                    </th>
-                    <th scope="col" className="px-6 py-3 font-semibold">
-                    Response
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {historyData.map((item, idx) => (
-                    <tr
-                    key={idx}
-                    className={idx % 2 === 0 ? 'bg-white' : 'bg-purple-50'}
-                    >
-                                <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
-                                <td className="px-6 py-4">{item.type}</td>
-                                <td className="px-6 py-4">{item.query}</td>
-                                <td className="px-6 py-4">{item.response}</td>
+                <table className="w-full text-sm text-left text-purple-900 bg-white rounded-lg shadow-lg overflow-hidden">
+                    <thead className="text-xs uppercase bg-purple-100 text-purple-700">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 font-semibold">Date</th>
+                            <th scope="col" className="px-6 py-3 font-semibold">Type</th>
+                            <th scope="col" className="px-6 py-3 font-semibold">Query</th>
+                            <th scope="col" className="px-6 py-3 font-semibold">Response</th>
+                            <th scope="col" className="px-6 py-3 font-semibold"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loading ? (
+                            <tr>
+                                <td colSpan={4} className="px-6 py-4 text-center">Loading...</td>
                             </tr>
-                        ))}
+                        ) : historyData.length === 0 ? (
+                            <tr>
+                                <td colSpan={4} className="px-6 py-4 text-center">No history found.</td>
+                            </tr>
+                        ) : (
+                            historyData.map((item, idx) => (
+                                <tr
+                                    key={idx}
+                                    className={idx % 2 === 0 ? 'bg-white' : 'bg-purple-50'}
+                                >
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        {new Date(item.createdAt).toLocaleDateString()}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {item.type === 'chat' ? '💬 Chat' : item.type === 'grader' ? '📝 Grader' : item.type}
+                                    </td>
+                                    <td
+                                        className="px-6 py-4 cursor-pointer hover:underline"
+                                        onClick={() => toggleRow(idx)}
+                                    >
+                                        {expandedRows.has(idx) ? item.fullPrompt : item.prompt}
+                                    </td>
+                                    <td
+                                        className="px-6 py-4 cursor-pointer hover:underline"
+                                        onClick={() => toggleRow(idx)}
+                                    >
+                                        {expandedRows.has(idx) ? item.fullResponse : item.response}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <button
+                                            onClick={() => handleDeleteHistory(item._id)}
+                                            className="cursor-pointer text-red-600 hover:text-red-800 transition-colors"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

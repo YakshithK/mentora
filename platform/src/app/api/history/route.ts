@@ -1,7 +1,28 @@
+import { auth } from "@/lib/auth";
 import { client, dbName, historyCollectionName } from "@/lib/mongo-client";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
+export const GET = async (req: NextRequest) => { 
+    try {
+        const session = await auth.api.getSession({
+            headers: await req.headers
+        });
+
+        const email = session?.user?.email;
+
+        await client.connect();
+        const db = client.db(dbName);
+        const collection = db.collection(historyCollectionName);
+
+        const chatHistory = await collection.find({ email }).sort({ createdAt: -1 }).toArray();
+
+        return NextResponse.json(chatHistory, { status: 200 });
+    } catch (error: any) { 
+        return NextResponse.json({ error: error.message, success: false }, { status: 500 });
+    }
+
+ }
 export const DELETE = async (req: NextRequest) => {
   try {
     const { id } = await req.json();
