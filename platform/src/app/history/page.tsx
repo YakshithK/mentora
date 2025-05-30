@@ -1,30 +1,23 @@
 "use client"
-import { Search } from 'lucide-react'
+import { Search, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { Trash2 } from 'lucide-react'
-
-type HistoryItem = {
-    _id: string
-    createdAt: string
-    type: string
-    prompt: string
-    response: string
-    email?: string
-    fullPrompt?: string
-    fullResponse?: string
-}
+import Spinner from '@/components/ui/Spinner'
+import { HistoryItem } from '@/types/history'
 
 const History = () => {
     const [historyData, setHistoryData] = useState<HistoryItem[]>([])
     const [loading, setLoading] = useState(true)
-    const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set()) // ← New state
+    const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
+    const [filterType, setFilterType] = useState<'all' | 'chat' | 'grader'>('all')
 
     const truncateText = (text: string, maxLength: number = 100) => {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
     }
 
-    useEffect(() => {
-        fetch('/api/history')
+    const fetchHistory = (type: string) => {
+        setLoading(true)
+        const query = type === 'all' ? '' : `?type=${type}`
+        fetch(`/api/history${query}`)
             .then(res => res.json())
             .then(data => {
                 const processedData = data.map((item: HistoryItem) => ({
@@ -37,8 +30,15 @@ const History = () => {
                 setHistoryData(processedData)
                 setLoading(false)
             })
-            .catch(() => setLoading(false))
-    }, [])
+            .catch(() => {
+                alert('Failed to load history. Please try again later.')
+                setLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        fetchHistory(filterType)
+    }, [filterType])
 
     const toggleRow = (index: number) => {
         setExpandedRows(prev => {
@@ -62,16 +62,16 @@ const History = () => {
                 body: JSON.stringify({ id })
             })
 
-            if (!response.ok) {
-                throw new Error('Failed to delete history')
-            }
+            if (!response.ok) throw new Error('Failed to delete history')
 
-            // Remove the deleted item from the state
             setHistoryData(prev => prev.filter(item => item._id !== id))
-        }
-        catch (error) {
+        } catch (error) {
             alert('Failed to delete history. Please try again later.')
         }
+    }
+
+    const handleFilterHistory = (type: 'all' | 'chat' | 'grader') => {
+        setFilterType(type)
     }
 
     return (
@@ -91,33 +91,38 @@ const History = () => {
                     </label>
                     <select
                         id="historyType"
+                        value={filterType}
+                        onChange={(e) => handleFilterHistory(e.target.value as 'all' | 'chat' | 'grader')}
                         className="px-4 py-2 rounded-md border border-white/30 bg-white/90 shadow-sm focus:outline-none focus:ring-2 focus:ring-white text-purple-900"
                     >
-                        <option value="all" className="text-purple-900">All</option>
+                        <option value="all">All</option>
                         <option value="chat">💬 Chat</option>
                         <option value="grader">📝 Grader</option>
                     </select>
                 </div>
             </div>
+
             <div className="relative overflow-x-auto mt-8 flex-1 px-6 pb-8">
                 <table className="w-full text-sm text-left text-purple-900 bg-white rounded-lg shadow-lg overflow-hidden">
                     <thead className="text-xs uppercase bg-purple-100 text-purple-700">
                         <tr>
-                            <th scope="col" className="px-6 py-3 font-semibold">Date</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Type</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Query</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Response</th>
-                            <th scope="col" className="px-6 py-3 font-semibold"></th>
+                            <th className="px-6 py-3 font-semibold">Date</th>
+                            <th className="px-6 py-3 font-semibold">Type</th>
+                            <th className="px-6 py-3 font-semibold">Query</th>
+                            <th className="px-6 py-3 font-semibold">Response</th>
+                            <th className="px-6 py-3 font-semibold"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-4 text-center">Loading...</td>
+                                <td colSpan={5} className="px-6 py-4 text-center">
+                                    <Spinner />
+                                </td>
                             </tr>
                         ) : historyData.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-4 text-center">No history found.</td>
+                                <td colSpan={5} className="px-6 py-4 text-center">No history found.</td>
                             </tr>
                         ) : (
                             historyData.map((item, idx) => (
