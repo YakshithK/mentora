@@ -1,0 +1,1 @@
+export type ModalType = "AI Grader" | "AI Chatbot" | null
