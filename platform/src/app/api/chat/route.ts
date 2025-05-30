@@ -3,7 +3,6 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from "path";
 import { client as mongoClient, dbName, historyCollectionName } from "@/lib/mongo-client"
-import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 
