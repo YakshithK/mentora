@@ -62,6 +62,7 @@ export const POST = async (req: NextRequest) => {
       prompt,
       response: grpcResponse.answer,
       createdAt: new Date(),
+      type: "chat"
     });
 
     return NextResponse.json({ chat: grpcResponse.answer, success: true }, { status: 200 });
@@ -72,28 +73,3 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const DELETE = async (req: NextRequest) => {
-  try {
-    const { id } = await req.json();
-
-    if (!id) {
-      return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
-    }
-
-    await mongoClient.connect();
-    const db = mongoClient.db(dbName);
-    const collection = db.collection(historyCollectionName);
-
-    const result = await collection.deleteOne({ _id: new ObjectId(id) });
-
-    if (result.deletedCount === 0) {
-      return NextResponse.json({ message: 'No chat history found for this ID' }, { status: 404 });
-    }
-
-    return NextResponse.json({ message: 'Chat history deleted successfully', success: true }, { status: 200 });
-
-  }
-  catch (error: any) {  
-    return NextResponse.json({ error: error.message, success: false }, { status: 500 });
-  } 
-}
