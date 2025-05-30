@@ -7,6 +7,7 @@ import { GraduationCap, History, MessageCircle, User } from 'lucide-react';
 import MotivationBox from '@/components/feature/Dashboard/MotivationBox';
 import { useSession } from '@/lib/auth-client';
 import Modal from '@/components/feature/Dashboard/Modal';
+import Link from 'next/link';
 
 const Dashboard = () => {
   const handleGetGreeting = () => {
@@ -37,12 +38,19 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row h-full items-center sm:pr-6 gap-2 sm:gap-0">
-            <Button className="flex items-center mb-2 sm:mb-0 sm:mr-4 w-full sm:w-auto">
-              <User className="mr-2 w-4 h-4"/> Profile
-            </Button>
-            <Button variant="filled" className="flex items-center w-full sm:w-auto">
-              <History className="mr-2 w-4 h-4"/> History
-            </Button>
+
+            <Link href="/profile">
+              <Button className="flex items-center mb-2 sm:mb-0 sm:mr-4 w-full sm:w-auto">
+                <User className="mr-2 w-4 h-4"/> Profile
+              </Button>
+            </Link>
+
+
+            <Link href="/history">
+              <Button variant="filled" className="flex items-center w-full sm:w-auto">
+                <History className="mr-2 w-4 h-4"/> History
+              </Button>
+            </Link>
           </div>
         </div>
 
