@@ -3,7 +3,7 @@
 import Button from '@/components/ui/Button';
 import Card from '@/components/feature/Dashboard/Card';
 import React from 'react'
-import { GraduationCap, MessageCircle, MessageSquare, User } from 'lucide-react';
+import { GraduationCap, History, MessageCircle, User } from 'lucide-react';
 import MotivationBox from '@/components/feature/Dashboard/MotivationBox';
 import { useSession } from '@/lib/auth-client';
 import Modal from '@/components/feature/Dashboard/Modal';
@@ -41,7 +41,7 @@ const Dashboard = () => {
               <User className="mr-2 w-4 h-4"/> Profile
             </Button>
             <Button variant="filled" className="flex items-center w-full sm:w-auto">
-              <MessageSquare className="mr-2 w-4 h-4"/> Previous Chats
+              <History className="mr-2 w-4 h-4"/> History
             </Button>
           </div>
         </div>
