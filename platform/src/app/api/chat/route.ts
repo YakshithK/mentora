@@ -20,6 +20,7 @@ const fetchAndQueryPromise = (client: any, query: string): Promise<any> => {
     client.fetchAndQuery({ query }, (err: any, response: any) => {
       if (err) {
         reject(err);
+        console.error('gRPC Error:', err);
       } else {
         resolve(response);
       }
