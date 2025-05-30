@@ -50,7 +50,7 @@ const History = () => {
                 item.fullResponse?.toLowerCase().includes(lowerQuery) || false
             )
             setFilteredData(result)
-        }, 300) // debounce delay
+        }, 300)
 
         return () => clearTimeout(timeout)
     }, [searchQuery, historyData])
@@ -87,16 +87,36 @@ const History = () => {
         }
     }
 
+    const handleDeleteAllHistory = async () => {
+        try {
+            const response = await fetch('/api/delete-all-history', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to delete all history')
+            }
+
+            setHistoryData([])
+            setFilteredData([])
+        } catch (error) { 
+            alert('Failed to delete all history. Please try again later.')
+        }   
+    }
+
     const handleFilterHistory = (type: 'all' | 'chat' | 'grader') => {
         setFilterType(type)
     }
 
     return (
         <div className="min-h-screen w-full flex flex-col">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 px-6 py-6 rounded-none">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 px-6 py-6">
                 <div className="relative w-full md:w-1/2">
                     <input
-                        className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white/95 text-purple-900 placeholder:text-purple-400 shadow-sm transition-all"
+                        className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-50 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white/95 text-purple-900 placeholder:text-purple-400 shadow-sm"
                         placeholder="Search history..."
                         type="text"
                         value={searchQuery}
@@ -119,9 +139,20 @@ const History = () => {
                         <option value="grader">📝 Grader</option>
                     </select>
                 </div>
+
+                <div>
+                    <button
+                        onClick={handleDeleteAllHistory}
+                        className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition duration-300"
+                    >
+                        Reset
+                    </button>
+                </div>
+
             </div>
 
-            <div className="relative overflow-x-auto mt-8 flex-1 px-6 pb-8">
+            {/* Desktop Table */}
+            <div className="hidden md:block relative overflow-x-auto mt-8 flex-1 px-6 pb-8">
                 <table className="w-full text-sm text-left text-purple-900 bg-white rounded-lg shadow-lg overflow-hidden">
                     <thead className="text-xs uppercase bg-purple-100 text-purple-700">
                         <tr>
@@ -180,6 +211,47 @@ const History = () => {
                         )}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="block md:hidden px-6 pb-8">
+                {loading ? (
+                    <div className="text-center py-8">
+                        <Spinner />
+                    </div>
+                ) : filteredData.length === 0 ? (
+                    <p className="text-center text-purple-700">No history found.</p>
+                ) : (
+                    <div className="space-y-4">
+                        {filteredData.map((item, idx) => (
+                            <div key={idx} className="bg-white rounded-lg shadow-md p-4">
+                                <div className="text-sm text-purple-700 mb-1">
+                                    {new Date(item.createdAt).toLocaleDateString()} • {item.type === 'chat' ? '💬 Chat' : '📝 Grader'}
+                                </div>
+                                <div
+                                    className="font-semibold text-purple-900 cursor-pointer mb-2"
+                                    onClick={() => toggleRow(idx)}
+                                >
+                                    {expandedRows.has(idx) ? item.fullPrompt : item.prompt}
+                                </div>
+                                <div
+                                    className="text-purple-800 cursor-pointer"
+                                    onClick={() => toggleRow(idx)}
+                                >
+                                    {expandedRows.has(idx) ? item.fullResponse : item.response}
+                                </div>
+                                <div className="mt-2 flex justify-end">
+                                    <button
+                                        onClick={() => handleDeleteHistory(item._id)}
+                                        className="text-red-600 hover:text-red-800"
+                                    >
+                                        <Trash2 className="w-5 h-5" />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     )

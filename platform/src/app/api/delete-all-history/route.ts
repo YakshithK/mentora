@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { client, dbName, historyCollectionName } from "@/lib/mongo-client";
+import { auth } from "@/lib/auth";
 
 export const DELETE = async (req: NextRequest) => {
   try {
-    const { email } = await req.json();
+    const session = await auth.api.getSession({
+      headers: await req.headers
+    })
 
-    if (!email) {
-      return NextResponse.json({ error: 'Missing email' }, { status: 400 });
-    }
+    const email = session?.user?.email; 
 
     await client.connect();
     const db = client.db(dbName);
