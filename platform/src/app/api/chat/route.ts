@@ -3,6 +3,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from "path";
 import { client as mongoClient, dbName } from "@/lib/mongo-client"
+import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 
@@ -70,4 +71,28 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const DELETE = async (req: NextRequest) => {}
+export const DELETE = async (req: NextRequest) => {
+  try {
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
+    }
+
+    await mongoClient.connect();
+    const db = mongoClient.db(dbName);
+    const collection = db.collection("chat-history");
+
+    const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ message: 'No chat history found for this ID' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Chat history deleted successfully', success: true }, { status: 200 });
+
+  }
+  catch (error: any) {  
+    return NextResponse.json({ error: error.message, success: false }, { status: 500 });
+  } 
+}
