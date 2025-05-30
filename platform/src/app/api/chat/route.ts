@@ -5,13 +5,14 @@ import { MongoClient } from 'mongodb';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 
+import * as grpc from '@grpc/grpc-js';
+
 const grpcClient = new VectorQueryServiceClient(
     process.env.GRPC_SERVER_URL || 'localhost:50051',
-    null,
-    null
+    grpc.credentials.createInsecure()
 );
 
-const mongoClient = new MongoClient(process.env.MONGODB_URI || '', {});
+const mongoClient = new MongoClient(process.env.MONGO_URL || '', {});
 const dbName = 'mentora';
 const collectionName = 'chat-history';
 

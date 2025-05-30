@@ -13,12 +13,10 @@ const AIChabot = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-  // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  // Auto-resize textarea based on content
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "24px"
@@ -26,7 +24,7 @@ const AIChabot = () => {
     }
   }, [prompt])
 
-  const handleSendMessage = (e?: FormEvent<HTMLFormElement>) => {
+  const handleSendMessage = async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
     if (!prompt.trim()) return
 
@@ -39,15 +37,37 @@ const AIChabot = () => {
       textareaRef.current.style.height = "24px"
     }
 
-    // Simulate assistant response
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch assistant response.")
+      }
+
+      const data = await response.json()
+      const assistantMessage: Message = {
+        role: "assistant",
+        content: data.response || "No response from assistant.",
+      }
+
+      setMessages((prev) => [...prev, assistantMessage])
+    } catch (error) {
+      console.error("Error sending message:", error)
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "This is a mock response from the assistant." }
+        { role: "assistant", content: "Sorry, something went wrong." },
       ])
+    } finally {
       setIsLoading(false)
-    }, 800)
+    }
   }
+
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
