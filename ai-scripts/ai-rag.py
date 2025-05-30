@@ -11,7 +11,6 @@ from helper.web_crawl import crawler
 async def store_vectors():
     """Store document vectors into the AstraDB vector store."""
 
-    pdf_or_web = os.getenv("PDF_OR_WEB")
     url = os.getenv("URL")
     collection_name = os.getenv("COLLECTION_NAME")
     namespace = os.getenv("NAMESPACE")
@@ -20,7 +19,6 @@ async def store_vectors():
     astra_namespace = os.getenv("ASTRA_NAMESPACE")
 
     env_vars = {
-        "PDF_OR_WEB": pdf_or_web,
         "URL": url,
         "COLLECTION_NAME": collection_name,
         "NAMESPACE": namespace,
@@ -38,6 +36,8 @@ async def store_vectors():
     if not pdf_path:
         raise ValueError("PDF path cannot be empty. Please provide a valid path or download the PDF.")
     
+
+    pdf_or_web = input("Is the document a PDF or a web page? (Enter 'pdf' or 'web'): ").strip().lower()
     if pdf_or_web == "pdf":
         pdf_path = save_online_pdf(url)
     elif pdf_or_web == "web":
