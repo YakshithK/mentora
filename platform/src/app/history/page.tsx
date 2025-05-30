@@ -62,7 +62,9 @@ const History = () => {
                 body: JSON.stringify({ id })
             })
 
-            if (!response.ok) throw new Error('Failed to delete history')
+            if (!response.ok) {
+                throw new Error('Failed to delete history')
+            }
 
             setHistoryData(prev => prev.filter(item => item._id !== id))
         } catch (error) {
