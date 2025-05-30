@@ -11,15 +11,33 @@ from helper.web_crawl import crawler
 async def store_vectors():
     """Store document vectors into the AstraDB vector store."""
 
-    pdf_or_web = input("Is the source a PDF or a web page? (pdf/web): ").strip().lower()
-    url = input("Enter the URL of the PDF or web page: ").strip()
-    collection_name = input("Enter the collection name: ").strip()
-    namespace = input("Enter the namespace: ").strip()
+    pdf_or_web = os.getenv("PDF_OR_WEB")
+    url = os.getenv("URL")
+    collection_name = os.getenv("COLLECTION_NAME")
+    namespace = os.getenv("NAMESPACE")
+    astra_api_endpoint = os.getenv("ASTRA_API_ENDPOINT")
+    astra_token = os.getenv("ASTRA_TOKEN")
+    astra_namespace = os.getenv("ASTRA_NAMESPACE")
 
+    env_vars = {
+        "PDF_OR_WEB": pdf_or_web,
+        "URL": url,
+        "COLLECTION_NAME": collection_name,
+        "NAMESPACE": namespace,
+        "ASTRA_API_ENDPOINT": astra_api_endpoint,
+        "ASTRA_TOKEN": astra_token,
+        "ASTRA_NAMESPACE": astra_namespace
+    }
 
-    db_config = read_db_config()
-    pdf_path = ""
+    missing = [key for key, value in env_vars.items() if not value]
+    if missing:
+        raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
 
+    pdf_path = input("Enter the path to the PDF file (or leave blank to download): ").strip()
+    
+    if not pdf_path:
+        raise ValueError("PDF path cannot be empty. Please provide a valid path or download the PDF.")
+    
     if pdf_or_web == "pdf":
         pdf_path = save_online_pdf(url)
     elif pdf_or_web == "web":
@@ -43,9 +61,9 @@ async def store_vectors():
     vectorstore = AstraDBVectorStore(
         collection_name=collection_name,
         embedding=embeddings,
-        api_endpoint=db_config.api_endpoint,
-        token=db_config.token,
-        namespace=namespace,
+        api_endpoint=astra_api_endpoint,
+        token=astra_token,
+        namespace=astra_namespace,
     )
 
     vectorstore.add_documents(documents=docs)
