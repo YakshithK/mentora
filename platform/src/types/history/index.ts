@@ -8,3 +8,5 @@ export interface HistoryItem {
     fullPrompt?: string
     fullResponse?: string
 }
+
+export type filterType = 'all' | 'chat' | 'grader';

@@ -2,13 +2,13 @@
 import { Search, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Spinner from '@/components/ui/Spinner'
-import { HistoryItem } from '@/types/history'
+import { HistoryItem, filterType } from '@/types/history'
 
 const History = () => {
     const [historyData, setHistoryData] = useState<HistoryItem[]>([])
     const [loading, setLoading] = useState(true)
     const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
-    const [filterType, setFilterType] = useState<'all' | 'chat' | 'grader'>('all')
+    const [filterType, setFilterType] = useState<filterType>('all')
 
     const truncateText = (text: string, maxLength: number = 100) => {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
@@ -72,7 +72,7 @@ const History = () => {
         }
     }
 
-    const handleFilterHistory = (type: 'all' | 'chat' | 'grader') => {
+    const handleFilterHistory = (type: filterType) => {
         setFilterType(type)
     }
 
@@ -94,7 +94,7 @@ const History = () => {
                     <select
                         id="historyType"
                         value={filterType}
-                        onChange={(e) => handleFilterHistory(e.target.value as 'all' | 'chat' | 'grader')}
+                        onChange={(e) => handleFilterHistory(e.target.value as filterType)}
                         className="px-4 py-2 rounded-md border border-white/30 bg-white/90 shadow-sm focus:outline-none focus:ring-2 focus:ring-white text-purple-900"
                     >
                         <option value="all">All</option>
