@@ -1,6 +1,8 @@
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from "path";
+import { client } from '@/lib/mongo-client'
+import { auth } from '@/lib/auth';
 
 const PROTO_PATH = path.join(process.cwd(), 'src', 'protos', 'personalization.proto');
 
@@ -30,12 +32,23 @@ export async function POST(request: Request) {
     
     const response = await generatePersonalizationPromise(client, query);
 
+    const db = client.db('test');
+    const accountsCollection = db.collection('accounts');
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    await accountsCollection.updateOne(
+      { email: session?.user?.email },
+      { $set: { preferences: response } },
+      { upsert: true }
+    );
+
     return new Response(JSON.stringify(response), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in gRPC call:', error);
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
