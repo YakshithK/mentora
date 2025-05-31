@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const client = new PersonalizationService('localhost:50052', grpc.credentials.createInsecure());
     
     const response = await generatePersonalizationPromise(client, query);
-    console.log(response)
+
     return new Response(JSON.stringify(response), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
