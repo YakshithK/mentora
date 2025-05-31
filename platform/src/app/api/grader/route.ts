@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { client } from "@/lib/mongo-client";
 import { auth } from "@/lib/auth";  
 
-const getUserPreferences = async (request: Request) => {
+const handleGetUserPreference = async (request: Request) => {
   const db = client.db("test");
   const accountsCollection = db.collection("preferences");
   const session = await auth.api.getSession({ headers: request.headers });
@@ -129,7 +129,7 @@ export const POST = async (request: Request) => {
     }
 
     // Get user preferences from DB based on session
-    const preferences = await getUserPreferences(request);
+    const preferences = await handleGetUserPreference(request);
 
     // Prepare customization note (stringify if object)
     const customizationNote =
