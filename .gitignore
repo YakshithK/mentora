@@ -2,3 +2,4 @@
 __pycache__
 *.pyc   
 .env
+leaf2.jsonl
