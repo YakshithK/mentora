@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package vectorquery;
+
+// Request containing the query string
+message QueryRequest {
+  string query = 1;
+}
+
+// Response from the model
+message QueryResponse {
+  string answer = 1;
+}
+
+// Service definition
+service VectorQueryService {
+  rpc FetchAndQuery (QueryRequest) returns (QueryResponse);
+}

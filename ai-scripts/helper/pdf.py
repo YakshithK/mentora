@@ -11,13 +11,12 @@ def save_online_pdf(pdf_url):
 
     file_name = os.path.join("source.pdf")  # Unified file name
 
-    try:
-        response = requests.get(pdf_url, stream=True, timeout=10)
-        if response.status_code == 200:
-            with open(file_name, "wb") as pdf_file:
-                for chunk in response.iter_content(1024):
-                    pdf_file.write(chunk)
-            return file_name
-        return "Failed to download PDF"
-    except requests.exceptions.RequestException as e:
-        return f"An error occurred: {e}"
+    
+    response = requests.get(pdf_url, stream=True, timeout=10)
+    if response.status_code == 200:
+        with open(file_name, "wb") as pdf_file:
+            for chunk in response.iter_content(1024):
+                pdf_file.write(chunk)
+
+    return file_name if os.path.exists(file_name) else "Failed to download PDF."
+

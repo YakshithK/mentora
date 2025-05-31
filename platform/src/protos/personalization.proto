@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package personalization;
+
+// Request message containing the feedback text to analyze
+message PersonalizationRequest {
+  string feedback = 1;
+}
+
+// A category result with text, category name, and sentiment score
+message CategoryResult {
+  string text = 1;
+  string category = 2;
+  float sentiment_score = 3;
+}
+
+// Response message containing the categorized feedback data
+message PersonalizationResponse {
+  repeated CategoryResult categories = 1;    // List of categorized feedback with sentiment
+  string feedback = 2;                        // Original feedback string
+  map<string, int32> category_counts = 3;   // Counts of each category
+}
+
+// Service definition for generating personalization data
+service PersonalizationService {
+  rpc GeneratePersonalization(PersonalizationRequest) returns (PersonalizationResponse);
+}

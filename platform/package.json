@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen:grpc": "grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=grpc_js:./src/grpc --js_out=import_style=commonjs,binary:./src/grpc --grpc_out=grpc_js:./src/grpc --proto_path=./src/protos ./src/protos/personalization.proto"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.13.4",
     "@heroicons/react": "^2.2.0",
     "better-auth": "^1.2.8",
     "lucide-react": "^0.511.0",
@@ -21,13 +23,16 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@grpc/proto-loader": "^0.7.15",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "grpc-tools": "^1.13.0",
     "tailwindcss": "^4",
+    "ts-protoc-gen": "^0.15.0",
     "typescript": "^5"
   }
 }
