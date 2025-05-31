@@ -3,6 +3,7 @@ import axios from "axios";
 import { NextResponse } from "next/server";
 import { client } from "@/lib/mongo-client";
 import { auth } from "@/lib/auth";  
+import { headers } from "next/headers";
 
 const handleGetUserPreference = async (request: Request) => {
   const db = client.db("test");
@@ -13,6 +14,7 @@ const handleGetUserPreference = async (request: Request) => {
 
   const user = await accountsCollection.findOne({ email: session.user.email });
   return user?.preferences || null;
+
 };
 
 // Grade the essay, including customization from preferences
@@ -118,6 +120,11 @@ Rules:
 
 // API route handler for POST /grade
 export const POST = async (request: Request) => {
+
+
+  const historyDb = client.db("history");
+  const historyCollection = historyDb.collection("history");
+
   try {
     const { essay, rubric } = await request.json();
 
@@ -128,6 +135,12 @@ export const POST = async (request: Request) => {
       );
     }
 
+
+        // Get user email from session
+        const session = await auth.api.getSession({ headers: await headers() });
+        const email = session?.user?.email || 'anonymous';
+    
+        
     // Get user preferences from DB based on session
     const preferences = await handleGetUserPreference(request);
 
@@ -139,6 +152,15 @@ export const POST = async (request: Request) => {
 
     // Grade the essay with optional customization instructions
     const gradingResult = await gradeEssay(essay, rubric, customizationNote);
+
+    await historyCollection.insertOne({
+      email,
+      prompt: essay,
+      response: gradingResult,
+      createdAt: new Date(),
+      type: "grading",
+    });
+
 
     return NextResponse.json(gradingResult);
   } catch (error) {
