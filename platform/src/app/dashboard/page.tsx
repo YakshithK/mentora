@@ -3,7 +3,7 @@
 import Button from '@/components/ui/Button';
 import Card from '@/components/feature/Dashboard/Card';
 import React from 'react'
-import { GraduationCap, History, MessageCircle } from 'lucide-react';
+import { GraduationCap, History, MessageCircle, Sparkles } from 'lucide-react';
 import MotivationBox from '@/components/feature/Dashboard/MotivationBox';
 import { useSession } from '@/lib/auth-client';
 import Modal from '@/components/feature/Dashboard/Modal';
@@ -38,6 +38,11 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row h-full items-center sm:pr-6 gap-2 sm:gap-0">
+            <Link href="/personalize">
+              <Button variant="outlined" className="flex items-center w-full sm:w-auto">
+                <Sparkles className="mr-2 w-4 h-4"/> Personalize
+              </Button>
+            </Link>
             <Link href="/history">
               <Button variant="filled" className="flex items-center w-full sm:w-auto">
                 <History className="mr-2 w-4 h-4"/> History
