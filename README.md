@@ -53,3 +53,4 @@ Mentora uses the following programming languages: **Typescript** and **Python**
 - platform/ → The NextJS project (frontend, backend)
 - ai-grader-mircoservice/  → The gRPC service that hosts the Neural Network (ai prediction)
 - ai-scripts/ → Scripts that were used in training/developing Mentora's AI models (python scripts)
+- notebooks/ → Rough work that went into building/designing the AI models 
