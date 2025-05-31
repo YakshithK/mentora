@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     const response = await generatePersonalizationPromise(client, query);
 
     const db = mongoClient.db('test');
-    const accountsCollection = db.collection('accounts');
+    const accountsCollection = db.collection('account');
     const session = await auth.api.getSession({
       headers: request.headers,
     });
