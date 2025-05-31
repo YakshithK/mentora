@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth";
 
 const getUserPreferences = async (request: Request) => {
   const db = client.db("test");
-  const accountsCollection = db.collection("account");
+  const accountsCollection = db.collection("preferences");
   const session = await auth.api.getSession({ headers: request.headers });
 
   if (!session?.user?.email) return null;
