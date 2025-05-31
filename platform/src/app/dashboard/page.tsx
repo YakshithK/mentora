@@ -61,7 +61,7 @@ const Dashboard = () => {
             <Card
               icon={MessageCircle}
               title="AI Chatbot"
-              description="Chat with our AI to get personalized advice and feedback. It is used with AI Grader and Bias Detection as well."
+              description="Chat with our AI to get personalized advice and feedback."
               type="AI Chatbot"
             />
             <MotivationBox />
