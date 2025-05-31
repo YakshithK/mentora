@@ -15,9 +15,9 @@ class PersonalizationService(personalization_pb2_grpc.PersonalizationServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     personalization_pb2_grpc.add_PersonalizationServicer_to_server(PersonalizationService(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port('[::]:50052')
     server.start()
-    print("Server started on port 50051")
+    print("Server started on port 50052")
     server.wait_for_termination()
 
 if __name__ == '__main__':
