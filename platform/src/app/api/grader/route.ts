@@ -1,7 +1,7 @@
 import { MAX_RETRIES } from "@/data/constant";
 import axios from "axios";
 import { NextResponse } from "next/server";
-import { client } from "@/lib/mongo-client";
+import { client, historyCollectionName } from "@/lib/mongo-client";
 import { auth } from "@/lib/auth";  
 import { headers } from "next/headers";
 
@@ -122,8 +122,8 @@ Rules:
 export const POST = async (request: Request) => {
 
 
-  const historyDb = client.db("history");
-  const historyCollection = historyDb.collection("history");
+  const historyDb = client.db(historyCollectionName);
+  const historyCollection = historyDb.collection(historyCollectionName);
 
   try {
     const { essay, rubric } = await request.json();
