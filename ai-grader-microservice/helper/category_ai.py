@@ -2,8 +2,12 @@ import numpy as np
 import joblib
 from tensorflow.keras.models import load_model
 import spacy
-vectorizer = joblib.load(r'ai-scripts\assets\category_vectorizer.joblib')
-le = joblib.load(r'ai-scripts\assets\category_labelencoder.joblib')
+import json
+
+model = load_model('/Users/hemitpatel/Documents/mentora/ai-grader-microservice/assets/category_model.h5')
+vectorizer = joblib.load('/Users/hemitpatel/Documents/mentora/ai-grader-microservice/assets/category_vectorizer.joblib')
+le = joblib.load('/Users/hemitpatel/Documents/mentora/ai-grader-microservice/assets/category_labelencoder.joblib')
+
 
 nlp = spacy.load("en_core_web_sm")
 

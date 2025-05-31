@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
@@ -7,32 +7,36 @@ import { Sparkle } from "lucide-react";
 const PersonalizationPage = () => {
   const [feedbacks, setFeedbacks] = useState<string[]>([""]);
   const [improvements, setImprovements] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // Basic keyword-based improvement detection (mock AI)
-  const analyzeFeedback = () => {
-    const combinedText = feedbacks.join(" ").toLowerCase();
+  const analyzeFeedback = async () => {
+    try {
+      setLoading(true);
+      const combinedText = feedbacks.join(" ");
 
-    const improvementKeywords = [
-      { keyword: "grammar", area: "Grammar and Language Usage" },
-      { keyword: "spelling", area: "Spelling" },
-      { keyword: "structure", area: "Essay Structure" },
-      { keyword: "clarity", area: "Clarity of Expression" },
-      { keyword: "argument", area: "Argument Strength" },
-      { keyword: "organization", area: "Organization of Ideas" },
-      { keyword: "detail", area: "Detail and Depth" },
-      { keyword: "punctuation", area: "Punctuation" },
-      { keyword: "thesis", area: "Thesis Development" },
-      { keyword: "evidence", area: "Use of Evidence" },
-    ];
+      const res = await fetch("/api/grader-personalize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: combinedText }),
+      });
 
-    const detected = improvementKeywords
-      .filter(({ keyword }) => combinedText.includes(keyword))
-      .map(({ area }) => area);
+      const data = await res.json();
 
-    if (detected.length === 0) {
-      setImprovements(["No specific areas detected. Keep up the great work!"]);
-    } else {
-      setImprovements(detected);
+      if (res.ok && data?.category_counts) {
+        const categories = Object.keys(data.category_counts);
+        setImprovements(
+          categories.length > 0
+            ? categories
+            : ["No specific areas detected. Keep up the great work!"]
+        );
+      } else {
+        setImprovements(["No specific areas detected. Keep up the great work!"]);
+      }
+    } catch (error) {
+      console.error("Analysis error:", error);
+      setImprovements(["An error occurred. Please try again later."]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,7 +52,7 @@ const PersonalizationPage = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto rounded-2xl p-8">
+      <div className="mx-auto rounded-2xl p-8 max-w-3xl">
         <h1 className="text-3xl font-bold mb-6">Personalize Your Feedback Analysis</h1>
         <p className="mb-6 text-purple-500">
           Enter teacher feedback below. Our AI will analyze and highlight areas you need to improve the most.
@@ -62,7 +66,7 @@ const PersonalizationPage = () => {
               onChange={(e) => handleFeedbackChange(idx, e.target.value)}
               rows={4}
               placeholder={`Enter feedback #${idx + 1}`}
-              className="w-full rounded-lg p-3 resize-none text-purple-900 font-medium"
+              className="w-full rounded-lg p-3 resize-none text-purple-900 font-medium border border-purple-300"
             />
           ))}
         </div>
@@ -74,8 +78,14 @@ const PersonalizationPage = () => {
           + Add Another Feedback
         </button>
 
-        <Button onClick={analyzeFeedback} className="flex items-center justify-center space-x-2 w-full mb-6" variant="filled">
-          <Sparkle /> <span>Analyze Feedback</span>
+        <Button
+          onClick={analyzeFeedback}
+          className="flex items-center justify-center space-x-2 w-full mb-6"
+          variant="filled"
+          disabled={loading}
+        >
+          <Sparkle />
+          <span>{loading ? "Analyzing..." : "Analyze Feedback"}</span>
         </Button>
 
         {improvements.length > 0 && (

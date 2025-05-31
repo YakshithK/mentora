@@ -3,9 +3,11 @@ import json
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import torch
 
-sentiment_model_name = "cardiffnlp/twitter-roberta-base-sentiment"
-sentiment_tokenizer = AutoTokenizer.from_pretrained(sentiment_model_name)
-sentiment_model = AutoModelForSequenceClassification.from_pretrained(sentiment_model_name)
+token = "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"
+
+sentiment_model_name = "siebert/sentiment-roberta-large-english"
+sentiment_tokenizer = AutoTokenizer.from_pretrained(sentiment_model_name, use_auth_token=token)
+sentiment_model = AutoModelForSequenceClassification.from_pretrained(sentiment_model_name, use_auth_token=token)
 
 label_to_score = {"negative": 9, "neutral": 5, "positive": 2}
 
@@ -27,8 +29,7 @@ def generate_personalization(feedback=None):
     for item in feedback_categories:
         item["sentiment_score"] = float(get_sentiment_score(item["text"], item["category"]))
 
-    return json.dumps({
+    return {
         "categories": feedback_categories,
-        "feedback": feedback,
         "category_counts": feedback_data["category_counts"]
-    }, ensure_ascii=False)
+    }
