@@ -2,8 +2,9 @@ from helper.category_ai import categorize_feedback
 import json
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import torch
+import os 
 
-token = "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"
+token = os.getenv("HF_TOKEN")
 
 sentiment_model_name = "siebert/sentiment-roberta-large-english"
 sentiment_tokenizer = AutoTokenizer.from_pretrained(sentiment_model_name, use_auth_token=token)
