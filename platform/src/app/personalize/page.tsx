@@ -17,7 +17,7 @@ interface ApiResponse {
 }
 
 const PersonalizationPage = () => {
-  const [feedback, setFeedback] = useState(""); // single feedback string
+  const [feedback, setFeedback] = useState("");
   const [detailedFeedback, setDetailedFeedback] = useState<CategoryFeedback[]>([]);
   const [loading, setLoading] = useState(false);
   const [generalFeedback, setGeneralFeedback] = useState("");
