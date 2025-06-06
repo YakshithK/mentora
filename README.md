@@ -25,7 +25,7 @@
 
 ## 🧠 What is Mentora?
 
-**Mentora** is an AI-powered essay grading and feedback platform designed to support critical thinking without replacing it. Built on the philosophy that AI should assist—not replace—human thought, Mentora provides constructive evaluation for student-written essays while keeping the human in the loop.
+**Mentora** is an AI-powered essay grading and feedback platform designed to support critical thinking without replacing it. Built on the philosophy that AI should assist—not replace—human thought, Mentora provides constructive evaluation for student-written essays while keeping the human in the loop. The AI grader is fintuned using human feedback from the leaf dataset through the help of Unsloth AI. 
 
 The system is trained on real human-written content, scrubbed of AI-generated feedback, to ensure authenticity and avoid reinforcing synthetic patterns. It's part of a broader effort to encourage intellectual growth by helping students understand their writing rather than outsourcing their thinking.
 
@@ -38,6 +38,7 @@ Mentora uses the following programming languages: **Typescript** and **Python**
 - **PyTorch** – Deep learning module for training the essay grading neural network.
 - **NumPy** - Data processing module for cleaning the training and testing data
 - **gRPC** - Allows for quick and seamless multi programming language communication between mircoservices and services like backend.
+- **Unsloth AI** - Open-source tool for finetuning LLMs
 
 ## 🚀 Features
 
